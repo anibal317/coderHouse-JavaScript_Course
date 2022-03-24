@@ -1,0 +1,66 @@
+.title {
+    text-align: center;
+}
+
+.layout {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+body {
+    background: url('https://image.shutterstock.com/image-vector/binary-computer-code-repeating-vector-600w-135022250.jpg');
+}
+
+.box {
+    padding: 5px 5px;
+    color: black;
+    width: 350px;
+    height: auto;
+    margin: 0 auto;
+    margin-bottom: 10px;
+    background-color: rgb(7, 53, 67);
+}
+
+
+section {
+    text-align: center;
+}
+
+.main {
+    width: 700px;
+}
+
+.resultados {
+    margin: 0 auto;
+    border: 3px solid rgb(231, 26, 26);
+    border-radius: 10px;
+    width: 100%;
+    height: 200px;
+}
+
+.rules {
+    width: 40%;
+    background: url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/3/rip.svg') bottom;
+    padding-left: 20px;
+    padding-bottom: 10px;
+    color: black;
+}
+
+.rules p {
+    text-align: justify;
+    padding-right: 20px;    
+}
+
+.resultados {
+    display: flex;
+    direction: column;
+    flex: 3;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.resultados>div {
+    width: 100%;
+    text-align: center;
+}

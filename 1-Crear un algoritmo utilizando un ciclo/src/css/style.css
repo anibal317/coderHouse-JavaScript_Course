@@ -1,11 +1,10 @@
-*{
+* {
     font-family: Arial, Helvetica, sans-serif;
     box-sizing: border-box;
 }
 
 #sectionOne,
-#sectionTwo,
-#formElemets {
+#sectionTwo {
     padding: 5px;
     display: flex;
     justify-content: space-between;
@@ -19,28 +18,45 @@
     text-align: center;
 }
 
-#sectionTwo > article {
+#sectionTwo>article {
     border: 1px solid red;
     width: 300px;
     height: 350px;
 }
 
-#taskOne{
+#taskOne {
     padding-top: 20px;
     text-align: center;
 
 }
-#results{
+
+#results {
     overflow-y: scroll;
     height: 250px;
     width: 290px;
     scroll-behavior: auto;
     padding-left: 12px;
 }
-#pares{
+
+#pares {
     height: 100px;
     text-align: center;
 }
-#doWhile{
+
+#doWhile {
     padding: 10px;
+}
+
+#formElemets {
+    padding: 15px;    
+    width: 150px;
+    display: flex;
+    margin-bottom: 10px;
+}
+
+#inputNumber{
+    width: 50px;
+}
+#formElements label{
+    width: 100px;
 }
