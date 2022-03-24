@@ -12,7 +12,7 @@ let base = random();
 let i = 0
 let bien = 0;
 let mal = 0;
-let intIntents = 0;
+let intIntents = 1;
 
 console.log(base);
 
@@ -49,9 +49,11 @@ function validaciones(arr) {
 }
 
 function compare(val) {
-    console.log("Hola", val)
-    if (val == base) {
-        alert(`Felicitaciones, el número ${val} es el ganador!!! en ${intIntents}`)
+    console.log("Hola", val, " ",base)
+    if (JSON.stringify(val) === JSON.stringify(base)) {
+        btnPlay.disabled=true
+        alert(`Felicitaciones, el número ${val.join('')} es el ganador!!! en ${intIntents}`)
+
     }else if (validaciones(val)){
         base.forEach((element, index) => {
             if (element === array[index]) {
