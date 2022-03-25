@@ -5,14 +5,17 @@ const assertions = document.getElementById('good')
 const mistakes = document.getElementById('wrong')
 const inputNumber = document.getElementById('inputNumber')
 const btnPlay = document.getElementById('play')
+const btnReset = document.getElementById('reset')
 
 btnPlay.addEventListener('click', play)
+btnReset.addEventListener('click', reset)
 let array
 let base = random();
 let i = 0
 let bien = 0;
 let mal = 0;
 let intIntents = 1;
+btnReset.disabled = true
 
 console.log(base);
 
@@ -49,12 +52,13 @@ function validaciones(arr) {
 }
 
 function compare(val) {
-    console.log("Hola", val, " ",base)
+    console.log("Hola", val, " ", base)
     if (JSON.stringify(val) === JSON.stringify(base)) {
-        btnPlay.disabled=true
-        alert(`Felicitaciones, el número ${val.join('')} es el ganador!!! en ${intIntents}`)
+        btnPlay.disabled = true
+        btnReset.disabled = false
+        alert(`Felicitaciones, el número ${val.join('')} es el ganador!!! en ${intIntents} movimiento/s`)
 
-    }else if (validaciones(val)){
+    } else if (validaciones(val)) {
         base.forEach((element, index) => {
             if (element === array[index]) {
                 bien++
@@ -83,4 +87,17 @@ function random() {
     } else {
         random()
     }
+}
+
+function reset() {
+    bien = 0
+    mal = 0
+    intIntents = 0
+    btnReset.disabled = true
+    btnPlay.disabled = true
+    number.innerText = `-`;
+    assertions.innerText = `-`;
+    mistakes.innerText = `-`;
+    intents.innerText = `Intentos:`;
+    inputNumber.value=''
 }
