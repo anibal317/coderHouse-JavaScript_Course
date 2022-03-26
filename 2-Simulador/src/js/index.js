@@ -17,8 +17,8 @@ axios.get('https://google-books.p.rapidapi.com/volumes', {
             divBooks.innerHTML += `<div class="card mb-3" style="max-width: 540px;">
                                         <div class="row g-0">
                                             <div class="col-md-4">
-                                                // <img src="${element.volumeInfo.imageLinks.thumbnail}" class="img-fluid rounded-start"
-                                                    alt="...">
+                                                <img src="${element.volumeInfo.imageLinks.thumbnail}" class="img-fluid rounded-start"
+                                                    alt="${element.volumeInfo.title}">
                                             </div>
                                             <div class="col-md-8">
                                                 <div class="card-body">

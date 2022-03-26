@@ -6,6 +6,7 @@ const mistakes = document.getElementById('wrong')
 const inputNumber = document.getElementById('inputNumber')
 const btnPlay = document.getElementById('play')
 const btnReset = document.getElementById('reset')
+const res = document.getElementById('res')
 
 btnPlay.addEventListener('click', play)
 btnReset.addEventListener('click', reset)
@@ -36,6 +37,7 @@ function play() {
         intents.innerText = `Intentos: ${intIntents}`;
         bien = 0;
         mal = 0;
+        res.scrollTop = res.scrollHeight;
 
     } else {
         alert("El número ingreso no es valido")
@@ -99,5 +101,5 @@ function reset() {
     assertions.innerText = `-`;
     mistakes.innerText = `-`;
     intents.innerText = `Intentos:`;
-    inputNumber.value=''
+    inputNumber.value = ''
 }
