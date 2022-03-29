@@ -8,8 +8,8 @@ section {
   display: flex;
   -webkit-box-orient: horizontal;
   -webkit-box-direction: normal;
-      -ms-flex-direction: row;
-          flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
   background-color: lightblue;
 }
 
@@ -17,23 +17,43 @@ header {
   background-color: #212529;
 }
 
+.imbBookContainer {
+  max-width: 540px;
+  
+}
+.card-body h5{
+  text-align: center;
+}
+.bo {
+  text-align: center;
+  align-self: center;
+}
+
+.bo>img {
+  width: 150%;
+}
+
 div.row {
   padding-top: 5px;
   -webkit-box-align: stretch;
-      -ms-flex-align: stretch;
-          align-items: stretch;
+  -ms-flex-align: stretch;
+  align-items: stretch;
   -webkit-box-pack: space-evenly;
-      -ms-flex-pack: space-evenly;
-          justify-content: space-evenly;
+  -ms-flex-pack: space-evenly;
+  justify-content: space-evenly;
 }
 
 #dailyPhrase {
   background-color: #215010;
   height: auto;
   -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
   vertical-align: middle;
+}
+
+.btnComprar {
+  text-align: center;
 }
 
 #dailyPhrase p {
@@ -45,8 +65,8 @@ div.row {
 #otra {
   font-size: 10px;
   position: absolute;
-  left: 90%;
-  margin-top: 40px;
+  left: 95%;
+  margin-top: 30px;
   height: 20px;
   padding-top: 1.5px;
 }
@@ -87,23 +107,26 @@ div.row {
   opacity: 0.3;
 }
 
-@media (max-width: 767px) {
+@media (min-width: 300px) and (max-width: 767px) {
+  #otra {
+    left: 82%;
+    margin-top: 30px;
+  }
+}
+
+@media (min-width: 768px) {
   .footer-dark .item:not(.social) {
     text-align: center;
     padding-bottom: 20px;
   }
+  #otra{
+    left: 90%;
+    margin-top: 15px;
+  }
 }
-
-@media (max-width: 767px) {
-  .card {
-    width: 50%;
-    -ms-flex-pack: distribute;
-        justify-content: space-around;
-  }
-  .col-md-4 {
-    display: contents;
-  }
-  .col-md-4 img {
-    width: 30%;
+@media (min-width: 1280px) {
+  #otra{
+    left: 95%;
+    margin-top: 15px;
   }
 }

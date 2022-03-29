@@ -14,9 +14,9 @@ axios.get('https://google-books.p.rapidapi.com/volumes', {
         // handle success
         divBooks.innerHTML = ''
         response.data.items.forEach(element => {
-            divBooks.innerHTML += `<div class="card mb-3" style="max-width: 540px;">
+            divBooks.innerHTML += `<div class="card mb-3 imbBookContainer">
                                         <div class="row g-0">
-                                            <div class="col-md-4">
+                                            <div class="col-md-4 bo">
                                                 <img src="${element.volumeInfo.imageLinks.thumbnail}" class="img-fluid rounded-start"
                                                     alt="${element.volumeInfo.title}">
                                             </div>
@@ -25,7 +25,9 @@ axios.get('https://google-books.p.rapidapi.com/volumes', {
                                                     <h5 class="card-title">${element.volumeInfo.title}</h5>
                                                     <p class="card-text">${element.searchInfo.textSnippet}</p>
                                                     <p class="card-text"><small class="text-muted">${element.volumeInfo.authors}</small></p>
-                                                    <a class="btn btn-primary" target="_blank" href="${element.volumeInfo.infoLink}">Ver mas</a>
+                                                    <div class="btnComprar">
+                                                        <a class="btn btn-primary" target="_blank" href="${element.volumeInfo.infoLink}">Comprar</a>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
