@@ -7,7 +7,7 @@ const btnOtra = document.getElementById('otra')
 axios.get('https://google-books.p.rapidapi.com/volumes', {
         headers: {
             'x-rapidapi-host': 'google-books.p.rapidapi.com',
-            'x-rapidapi-key': '948b6dd5b9mshb4da007de990f34p1551e4jsn6ef3514cf41e'
+            'x-rapidapi-key': 'e6f508925bmshc1a019dc65b5062p164441jsn38a4dcc9ae79'
         }
     })
     .then(function (response) {
