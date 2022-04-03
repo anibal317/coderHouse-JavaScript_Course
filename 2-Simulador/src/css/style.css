@@ -107,6 +107,14 @@ div.row {
   opacity: 0.3;
 }
 
+.user{
+  width: 90%;
+  height: 80px;
+  margin: .5% auto;
+}
+
+
+
 @media (min-width: 300px) and (max-width: 767px) {
   #otra {
     left: 82%;
