@@ -19,11 +19,13 @@ header {
 
 .imbBookContainer {
   max-width: 540px;
-  
+
 }
-.card-body h5{
+
+.card-body h5 {
   text-align: center;
 }
+
 .bo {
   text-align: center;
   align-self: center;
@@ -31,6 +33,10 @@ header {
 
 .bo>img {
   width: 150%;
+}
+
+#infoUser {
+  height: auto;
 }
 
 div.row {
@@ -107,7 +113,7 @@ div.row {
   opacity: 0.3;
 }
 
-.user{
+.user {
   width: 90%;
   height: 80px;
   margin: .5% auto;
@@ -127,13 +133,15 @@ div.row {
     text-align: center;
     padding-bottom: 20px;
   }
-  #otra{
+
+  #otra {
     left: 90%;
     margin-top: 15px;
   }
 }
+
 @media (min-width: 1280px) {
-  #otra{
+  #otra {
     left: 95%;
     margin-top: 15px;
   }

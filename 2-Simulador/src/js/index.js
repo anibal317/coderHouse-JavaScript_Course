@@ -6,6 +6,8 @@ const btnOtra = document.getElementById('otra');
 const info = document.getElementById('infoUser');
 const btnBuy = document.getElementById('btnComprar');
 const btnLogin = document.getElementById('btnLogin');
+const btnMyCar = document.getElementById('btnMyCar');
+const btnSearchCodProduct = document.getElementById('btnSearchCodProduct');
 const lblUser = document.getElementById('user');
 const lblDni = document.getElementById('dni');
 
@@ -14,12 +16,15 @@ let user = {};
 //     user:"Jorge"
 // }
 let lstProducts = [];
+let myCar = []
 
 btnBuy.addEventListener('click', comprar);
 btnOtra.addEventListener("click", callPhrase)
 btnLogin.addEventListener("click", login)
+btnSearchCodProduct.addEventListener("click", searchProduct)
 
-
+callPhrase()
+verifySession()
 
 
 axios.get('https://google-books.p.rapidapi.com/volumes', {
@@ -70,7 +75,8 @@ function callPhrase() {
 function verifySession() {
     info.style.display = 'none'
     btnBuy.style.display = 'none'
-    console.log(Object.keys(user))
+    btnMyCar.style.display = 'none'
+
     if (Object.keys(user).length == 0) {
         alert("Debe iniciar sesión para realizar compras")
     }
@@ -85,8 +91,9 @@ function login() {
             user: userNickName,
             userDni
         }
-        info.style.display = 'block'
+        info.style.display = 'inline'
         btnBuy.style.display = 'inline'
+        btnMyCar.style.display = 'inline'
         showUserData(user)
     } else {
         alert("Los datos deben estar completos")
@@ -94,20 +101,39 @@ function login() {
 }
 
 async function comprar() {
+    //objeto
+    // localStorage.setItem("productos", JSON.stringify(miObjeto))
 
     let producto = prompt(`Productos\n${lstProducts.join('\n')}`)
-    if (parseInt(producto)) {
-        console.log(producto, lstProducts[parseInt(producto)])
-    }else{
-        alert('Código de producto no válido')
+
+    if (productExist(parseInt(producto))) {
+        myCar.push(parseInt(producto))
+        sessionStorage.setItem("myOwnCar", myCar)
+        productExist(parseInt(producto))
+        console.log(sessionStorage.getItem("myOwnCar"))
+    } else {
+        alert('Cod de producto ingresado incorrecto')
     }
 
+}
+
+function productExist(id) {
+    if (lstProducts.length >= id) {
+        return true
+    } else {
+        return false
+    }
 }
 
 function showUserData(obj) {
     lblUser.innerText = obj.user
     lblDni.innerText = obj.userDni
-
 }
-callPhrase()
-verifySession()
+
+console.log(lstProducts)
+
+function searchProduct() {
+    let strfilter = prompt("Ingrese producto")
+    let list = lstProducts.filter(element =>  element.includes(strfilter))
+    alert(list.join('\n'))
+}

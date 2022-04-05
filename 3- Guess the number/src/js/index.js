@@ -82,7 +82,7 @@ function esPrimero(valor, indice, lista) {
 function random() {
     let min = 1023
     let max = 9876
-    let sysNumber = Math.floor((Math.random() * (max - min + 1)) + min);
+    let sysNumber = Math.floor((Math.random() * (9999 - 1000 + 1)) + 1000);
     let strSysNumber = sysNumber.toString().split('')
     if (validaciones(strSysNumber)) {
         return strSysNumber
