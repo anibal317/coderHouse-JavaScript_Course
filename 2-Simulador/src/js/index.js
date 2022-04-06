@@ -1,12 +1,11 @@
 // const axios = require('axios').default;
 const divBooks = document.getElementById('books');
-const pPhrase = document.getElementById('phrase');
+const phrase = document.getElementById('phrase');
 const icon = document.getElementById('icon');
 const btnOtra = document.getElementById('otra');
 const info = document.getElementById('infoUser');
 const btnBuy = document.getElementById('btnComprar');
 const btnLogin = document.getElementById('btnLogin');
-const btnMyCar = document.getElementById('btnMyCar');
 const btnSearchCodProduct = document.getElementById('btnSearchCodProduct');
 const lblUser = document.getElementById('user');
 const lblDni = document.getElementById('dni');
@@ -55,27 +54,25 @@ axios.get('https://google-books.p.rapidapi.com/volumes', {
                                     </div>`
             lstProducts.push(`${index} - ${element.volumeInfo.title}`)
         });
-        lstProducts
-
+        sessionStorage.setItem('productList',lstProducts)
     })
     .catch(function (error) {
         // handle error
         console.log(error);
     })
 
-
-function callPhrase() {
+    function callPhrase() {
     axios.get('https://api.chucknorris.io/jokes/random')
         .then(function (response) {
-            icon.src = response.data.icon_url
-            pPhrase.innerText = response.data.value
+            // icon.src = response.data.icon_url
+            icon.src = 'https://d1nxzqpcg2bym0.cloudfront.net/google_play/wirelessless.net.chucknorrisfacts4gearfit/26314594-0cb3-11e5-a073-7fbac12c16d2/128x128'
+            phrase.innerText = response.data.value
         })
 }
 
 function verifySession() {
     info.style.display = 'none'
     btnBuy.style.display = 'none'
-    btnMyCar.style.display = 'none'
 
     if (Object.keys(user).length == 0) {
         alert("Debe iniciar sesión para realizar compras")
@@ -91,9 +88,8 @@ function login() {
             user: userNickName,
             userDni
         }
-        info.style.display = 'inline'
+        info.style.display = 'block'
         btnBuy.style.display = 'inline'
-        btnMyCar.style.display = 'inline'
         showUserData(user)
     } else {
         alert("Los datos deben estar completos")
@@ -130,7 +126,6 @@ function showUserData(obj) {
     lblDni.innerText = obj.userDni
 }
 
-console.log(lstProducts)
 
 function searchProduct() {
     let strfilter = prompt("Ingrese producto")
