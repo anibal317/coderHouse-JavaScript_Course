@@ -1,3 +1,7 @@
+body {
+  background-color: black;
+}
+
 header ul li a {
   color: white !important;
 }
@@ -10,7 +14,7 @@ section {
   -webkit-box-direction: normal;
   -ms-flex-direction: row;
   flex-direction: row;
-  background-color: lightblue;
+  background-color: black;
 }
 
 header {
@@ -22,9 +26,16 @@ header {
 
 }
 
-#icon{
+.card {
+  background-color: black;
+  color: white;
+  border-color: red;
+}
+
+#icon {
   height: 64px;
 }
+
 .card-body h5 {
   text-align: center;
 }
@@ -78,6 +89,10 @@ div.row {
   margin-top: 30px;
   height: 20px;
   padding-top: 1.5px;
+}
+
+.accordion {
+  width: 100%;
 }
 
 .footer-dark {

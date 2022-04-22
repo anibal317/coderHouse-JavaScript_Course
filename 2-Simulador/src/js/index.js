@@ -4,64 +4,84 @@ const phrase = document.getElementById('phrase');
 const icon = document.getElementById('icon');
 const btnOtra = document.getElementById('otra');
 const info = document.getElementById('infoUser');
-const btnBuy = document.getElementById('btnComprar');
 const btnLogin = document.getElementById('btnLogin');
-const btnSearchCodProduct = document.getElementById('btnSearchCodProduct');
 const lblUser = document.getElementById('user');
 const lblDni = document.getElementById('dni');
+
 
 let user = {};
 // user={
 //     user:"Jorge"
 // }
-let lstProducts = [];
 let myCar = []
 
-btnBuy.addEventListener('click', comprar);
 btnOtra.addEventListener("click", callPhrase)
 btnLogin.addEventListener("click", login)
-btnSearchCodProduct.addEventListener("click", searchProduct)
 
 callPhrase()
-verifySession()
 
+let lstProducts = []
 
-axios.get('https://google-books.p.rapidapi.com/volumes', {
+async function getDatos() {
+    let a = await
+    fetch('https://google-books.p.rapidapi.com/volumes', {
         headers: {
             'x-rapidapi-host': 'google-books.p.rapidapi.com',
             'x-rapidapi-key': 'e6f508925bmshc1a019dc65b5062p164441jsn38a4dcc9ae79'
         }
     })
-    .then(function (response) {
-        // handle successse.data.items[0])
-        divBooks.innerHTML = ''
-        response.data.items.forEach((element, index) => {
-            divBooks.innerHTML += `<div class="card mb-3 imbBookContainer">
-                                        <div class="row g-0">
-                                            <div class="col-md-4 bo">
-                                                <img src="${element.volumeInfo.imageLinks.thumbnail}" class="img-fluid rounded-start"
-                                                    alt="${element.volumeInfo.title}">
-                                            </div>
-                                            <div class="col-md-8">
-                                                <div class="card-body">
-                                                    <h5 class="card-title">${element.volumeInfo.title} </h5>
-                                                    <p class="card-text">${element.searchInfo.textSnippet}</p>
-                                                    <p class="card-text"><small class="text-muted">${element.volumeInfo.authors} - Cod: ${index}</small></p>
-                                                    
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>`
-            lstProducts.push(`${index} - ${element.volumeInfo.title}`)
-        });
-        sessionStorage.setItem('productList',lstProducts)
-    })
-    .catch(function (error) {
-        // handle error
-        console.log(error);
-    })
+    let finalData = await a.json()
 
-    function callPhrase() {
+    finalData.items.forEach((element, index) => {
+        let item = {
+            internalId: index,
+            ...element,
+            price: getRandomNumbers(100, 200, 2)
+        }
+        lstProducts.push(item)
+
+    })
+    return lstProducts
+}
+
+rederCards()
+
+async function rederCards() {
+    const lstBooks = await getDatos()
+    divBooks.innerHTML = ''
+    for (let i = 0; i < lstBooks.length; i++) {
+        divBooks.innerHTML += createCard(lstBooks[i])
+    }
+
+    let a = document.getElementsByClassName('btnBuy')
+    for (let i = 0; i < a.length; i++) {
+        a[i].addEventListener('click', comprar)
+    }
+}
+
+
+function createCard(book) {
+    return `<div class="card mb-3 imbBookContainer">
+                    <div class="row g-0">
+                        <div class="col-md-4 bo">
+                            <img src="${book.volumeInfo.imageLinks.thumbnail}" class="img-fluid rounded-start"
+                            alt="${book.volumeInfo.title}">
+                        </div>
+                        <div class="col-md-8">
+                            <div class="card-body">
+                                <h5 class="card-title">${book.volumeInfo.title} </h5>
+                                <p class="card-text">${book.searchInfo.textSnippet}</p>
+                                <p class="card-text"><small class="text-muted">${book.volumeInfo.authors} - Cod: ${book.internalId}</small></p>
+                                <p>Price: ${book.price}</p>
+                           </div>
+                        </div>
+                    </div>
+                    <button id="btnBuy" class="btn btn-success btnBuy" data-price=${book.price} data-id=${book.internalId}>Comprar</button>
+                </div>`
+
+}
+
+function callPhrase() {
     axios.get('https://api.chucknorris.io/jokes/random')
         .then(function (response) {
             // icon.src = response.data.icon_url
@@ -70,14 +90,6 @@ axios.get('https://google-books.p.rapidapi.com/volumes', {
         })
 }
 
-function verifySession() {
-    info.style.display = 'none'
-    btnBuy.style.display = 'none'
-
-    if (Object.keys(user).length == 0) {
-        alert("Debe iniciar sesión para realizar compras")
-    }
-}
 
 function login() {
     let userNickName = prompt("Ingrese Usuario")
@@ -96,21 +108,12 @@ function login() {
     }
 }
 
-async function comprar() {
-    //objeto
-    // localStorage.setItem("productos", JSON.stringify(miObjeto))
-
-    let producto = prompt(`Productos\n${lstProducts.join('\n')}`)
-
-    if (productExist(parseInt(producto))) {
-        myCar.push(parseInt(producto))
-        sessionStorage.setItem("myOwnCar", myCar)
-        productExist(parseInt(producto))
-        console.log(sessionStorage.getItem("myOwnCar"))
-    } else {
-        alert('Cod de producto ingresado incorrecto')
-    }
-
+async function comprar(e) {
+    swal(`Producto: ${e.target.dataset.id}  Precio: ${e.target.dataset.price}`)
+    swal({
+		"title": "Eliseo@gardner.biz",
+		"text": "laudantium enim quasi est quidem magnam voluptate ipsam eos\ntempora quo necessitatibus\ndolor quam autem quasi\nreiciendis et nam sapiente accusantium"
+	})
 }
 
 function productExist(id) {
@@ -126,9 +129,12 @@ function showUserData(obj) {
     lblDni.innerText = obj.userDni
 }
 
-
 function searchProduct() {
     let strfilter = prompt("Ingrese producto")
-    let list = lstProducts.filter(element =>  element.includes(strfilter))
+    let list = lstProducts.filter(element => element.includes(strfilter))
     alert(list.join('\n'))
+}
+
+function getRandomNumbers(min, max, dec) {
+    return (Math.random() * (max - min) + min).toFixed(dec);
 }
