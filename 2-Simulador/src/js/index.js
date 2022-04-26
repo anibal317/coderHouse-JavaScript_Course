@@ -5,6 +5,7 @@ const icon = document.getElementById('icon');
 const btnOtra = document.getElementById('otra');
 const info = document.getElementById('infoUser');
 const btnLogin = document.getElementById('btnLogin');
+const btnLogout = document.getElementById('btnLogout');
 const lblUser = document.getElementById('user');
 const lblDni = document.getElementById('dni');
 
@@ -16,6 +17,7 @@ let lstProducts = []
 
 btnOtra.addEventListener("click", callPhrase)
 btnLogin.addEventListener("click", login)
+btnLogout.addEventListener("click", logout)
 
 callPhrase()
 checkSession()
@@ -136,13 +138,14 @@ function checkSession() {
         showUserData(JSON.parse(localStorage.getItem('userLogged')))
         // btnLogin.style.display = 'none'
         // info.style.display = 'block'
-    }else if (localStorage.getItem('userLogged')) {
+    } else if (localStorage.getItem('userLogged')) {
         console.log('algo aca?')
         showUserData(JSON.parse(localStorage.getItem('userLogged')), "Bienvenido de nuevo")
         sessionStorage.setItem('online', true)
 
     } else {
         btnLogin.style.display = 'inline'
+        btnLogout.style.display = 'none'
         info.style.display = 'none'
 
     }
@@ -151,7 +154,9 @@ function checkSession() {
 function logout() {
     logged = false
     sessionStorage.removeItem('online')
+    localStorage.removeItem('userLogged')
     swal('Gracias por visitarnos')
+    location.reload()
 }
 
 async function comprar(e) {
@@ -177,6 +182,7 @@ function showUserData(obj, msg) {
         swal(msg)
     }
     btnLogin.style.display = 'none'
+    btnLogout.style.display = 'inline'
     info.style.display = 'block'
 }
 
