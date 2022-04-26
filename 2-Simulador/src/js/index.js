@@ -9,18 +9,16 @@ const lblUser = document.getElementById('user');
 const lblDni = document.getElementById('dni');
 
 
-let user = {};
-// user={
-//     user:"Jorge"
-// }
+let userLogged = {};
+let logged = false
 let myCar = []
+let lstProducts = []
 
 btnOtra.addEventListener("click", callPhrase)
 btnLogin.addEventListener("click", login)
 
 callPhrase()
-
-let lstProducts = []
+checkSession()
 
 async function getDatos() {
     let a = await
@@ -59,7 +57,6 @@ async function rederCards() {
     }
 }
 
-
 function createCard(book) {
     return `<div class="card mb-3 imbBookContainer">
                     <div class="row g-0">
@@ -90,30 +87,79 @@ function callPhrase() {
         })
 }
 
-
 function login() {
-    let userNickName = prompt("Ingrese Usuario")
-    let userDni = prompt("Ingrese DNI")
 
-    if (userNickName != '' && userDni != '' && userNickName != ' ' && userDni != ' ') {
-        user = {
-            user: userNickName,
-            userDni
-        }
-        info.style.display = 'block'
-        btnBuy.style.display = 'inline'
-        showUserData(user)
-    } else {
-        alert("Los datos deben estar completos")
+    if (!localStorage.getItem('userLogged')) {
+        let userLogin = prompt('Ingrese usuario')
+        let pwd = prompt('Ingrese contraseña')
+
+        fetch('./src/data/json/users.json')
+            .then(response => response.json())
+            .then(datos => {
+                datos.forEach(user => {
+                    if (user.userName === userLogin && user.password === pwd) {
+                        userLogged = {
+                            usName: user.lastName + ", " + user.name,
+                            usDni: user.dni
+                        }
+                        logged = true
+                    }
+
+                })
+                if (logged) {
+                    localStorage.setItem('userLogged', JSON.stringify(userLogged))
+                    sessionStorage.setItem('online', true)
+                    showUserData(userLogged, 'Bienvenido')
+                } else {
+                    swal('Datos Incorrectos')
+                }
+            })
     }
+
+    // if (userNickName != '' && userDni != '' && userNickName != ' ' && userDni != ' ') {
+    //     user = {
+    //         user: userNickName,
+    //         userDni
+    //     }
+    //     info.style.display = 'block'
+    //     btnBuy.style.display = 'inline'
+    //     showUserData(user)
+    // } else {
+    //     alert("Los datos deben estar completos")
+    // }
+}
+
+function checkSession() {
+    console.log(sessionStorage.getItem('online'))
+    if (localStorage.getItem('userLogged') && !!sessionStorage.getItem('online')) {
+        console.log('hola')
+        showUserData(JSON.parse(localStorage.getItem('userLogged')))
+        // btnLogin.style.display = 'none'
+        // info.style.display = 'block'
+    }else if (localStorage.getItem('userLogged')) {
+        console.log('algo aca?')
+        showUserData(JSON.parse(localStorage.getItem('userLogged')), "Bienvenido de nuevo")
+        sessionStorage.setItem('online', true)
+
+    } else {
+        btnLogin.style.display = 'inline'
+        info.style.display = 'none'
+
+    }
+}
+
+function logout() {
+    logged = false
+    sessionStorage.removeItem('online')
+    swal('Gracias por visitarnos')
 }
 
 async function comprar(e) {
     swal(`Producto: ${e.target.dataset.id}  Precio: ${e.target.dataset.price}`)
     swal({
-		"title": "Eliseo@gardner.biz",
-		"text": "laudantium enim quasi est quidem magnam voluptate ipsam eos\ntempora quo necessitatibus\ndolor quam autem quasi\nreiciendis et nam sapiente accusantium"
-	})
+        "title": "Eliseo@gardner.biz",
+        "text": "laudantium enim quasi est quidem magnam voluptate ipsam eos\ntempora quo necessitatibus\ndolor quam autem quasi\nreiciendis et nam sapiente accusantium"
+    })
 }
 
 function productExist(id) {
@@ -124,9 +170,14 @@ function productExist(id) {
     }
 }
 
-function showUserData(obj) {
-    lblUser.innerText = obj.user
-    lblDni.innerText = obj.userDni
+function showUserData(obj, msg) {
+    lblUser.innerText = obj.usName
+    lblDni.innerText = obj.usDni
+    if (msg) {
+        swal(msg)
+    }
+    btnLogin.style.display = 'none'
+    info.style.display = 'block'
 }
 
 function searchProduct() {

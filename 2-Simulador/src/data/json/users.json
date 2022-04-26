@@ -1,0 +1,29 @@
+[
+    {
+        "id": 1,
+        "name": "Jorge",
+        "lastName": "Sardon",
+        "userName": "jsardon",
+        "password": "123456",
+        "dni": "31.391.317",
+        "email": "jsardon@gmail.com"
+    },
+    {
+        "id": 2,
+        "name": "Daniel",
+        "lastName": "Cazabat",
+        "userName": "dcazabat",
+        "password": "123456",
+        "dni": "31.391.318",
+        "email": "dcazabat@gmail.com"
+    },
+    {
+        "id": 3,
+        "name": "Cristian",
+        "lastName": "Hernández",
+        "userName": "chernandez",
+        "password": "123456",
+        "dni": "31.391.319",
+        "email": "chernandez@gmail.com"
+    }
+]
