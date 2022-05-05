@@ -1,4 +1,5 @@
-// const axios = require('axios').default;
+import path from '../data/path/path.js'
+
 const divBooks = document.getElementById('books');
 const phrase = document.getElementById('phrase');
 const icon = document.getElementById('icon');
@@ -8,15 +9,15 @@ const btnLogin = document.getElementById('btnLogin');
 const btnLogout = document.getElementById('btnLogout');
 const lblUser = document.getElementById('user');
 const lblDni = document.getElementById('dni');
+const dataContainter = document.getElementById('btnComprar');
 
-
-let userLogged = {};
 let logged = false
+
 let myCar = []
 let lstProducts = []
 
 btnOtra.addEventListener("click", callPhrase)
-btnLogin.addEventListener("click", login)
+btnLogin.addEventListener("click", redirect)
 btnLogout.addEventListener("click", logout)
 
 callPhrase()
@@ -89,46 +90,8 @@ function callPhrase() {
         })
 }
 
-function login() {
-
-    if (!localStorage.getItem('userLogged')) {
-        let userLogin = prompt('Ingrese usuario')
-        let pwd = prompt('Ingrese contraseña')
-
-        fetch('./src/data/json/users.json')
-            .then(response => response.json())
-            .then(datos => {
-                datos.forEach(user => {
-                    if (user.userName === userLogin && user.password === pwd) {
-                        userLogged = {
-                            usName: user.lastName + ", " + user.name,
-                            usDni: user.dni
-                        }
-                        logged = true
-                    }
-
-                })
-                if (logged) {
-                    localStorage.setItem('userLogged', JSON.stringify(userLogged))
-                    sessionStorage.setItem('online', true)
-                    showUserData(userLogged, 'Bienvenido')
-                } else {
-                    swal('Datos Incorrectos')
-                }
-            })
-    }
-
-    // if (userNickName != '' && userDni != '' && userNickName != ' ' && userDni != ' ') {
-    //     user = {
-    //         user: userNickName,
-    //         userDni
-    //     }
-    //     info.style.display = 'block'
-    //     btnBuy.style.display = 'inline'
-    //     showUserData(user)
-    // } else {
-    //     alert("Los datos deben estar completos")
-    // }
+function redirect(){
+    window.location.href = 'sections/'+path.loginPath;
 }
 
 function checkSession() {
@@ -138,6 +101,7 @@ function checkSession() {
         showUserData(JSON.parse(localStorage.getItem('userLogged')))
         // btnLogin.style.display = 'none'
         // info.style.display = 'block'
+        dataContainter.style.height="140px"
     } else if (localStorage.getItem('userLogged')) {
         console.log('algo aca?')
         showUserData(JSON.parse(localStorage.getItem('userLogged')), "Bienvenido de nuevo")
