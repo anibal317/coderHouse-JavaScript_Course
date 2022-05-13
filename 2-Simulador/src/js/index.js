@@ -10,10 +10,12 @@ const btnLogout = document.getElementById('btnLogout');
 const lblUser = document.getElementById('user');
 const lblDni = document.getElementById('dni');
 const dataContainter = document.getElementById('btnComprar');
+const card = document.getElementsByClassName('card')
+const btnBuy = document.getElementsByClassName('btnBuy');
 
 let logged = false
 
-let myCar = []
+let myCart = JSON.parse(localStorage.getItem('myCart')) || []
 let lstProducts = []
 
 btnOtra.addEventListener("click", callPhrase)
@@ -25,12 +27,12 @@ checkSession()
 
 async function getDatos() {
     let a = await
-    fetch('https://google-books.p.rapidapi.com/volumes', {
-        headers: {
-            'x-rapidapi-host': 'google-books.p.rapidapi.com',
-            'x-rapidapi-key': 'e6f508925bmshc1a019dc65b5062p164441jsn38a4dcc9ae79'
-        }
-    })
+        fetch('https://google-books.p.rapidapi.com/volumes', {
+            headers: {
+                'x-rapidapi-host': 'google-books.p.rapidapi.com',
+                'x-rapidapi-key': 'e6f508925bmshc1a019dc65b5062p164441jsn38a4dcc9ae79'
+            }
+        })
     let finalData = await a.json()
 
     finalData.items.forEach((element, index) => {
@@ -76,7 +78,7 @@ function createCard(book) {
                            </div>
                         </div>
                     </div>
-                    <button id="btnBuy" class="btn btn-success btnBuy" data-price=${book.price} data-id=${book.internalId}>Comprar</button>
+                    <button id="btnBuy" class="btn btn-success btnBuy" data-price=${book.price} data-id=${book.internalId} data-title=${book.volumeInfo.title}>Comprar</button>
                 </div>`
 
 }
@@ -90,18 +92,17 @@ function callPhrase() {
         })
 }
 
-function redirect(){
-    window.location.href = 'sections/'+path.loginPath;
+function redirect() {
+    window.location.href = 'sections/' + path.loginPath;
 }
 
 function checkSession() {
-    console.log(sessionStorage.getItem('online'))
     if (localStorage.getItem('userLogged') && !!sessionStorage.getItem('online')) {
-        console.log('hola')
         showUserData(JSON.parse(localStorage.getItem('userLogged')))
         // btnLogin.style.display = 'none'
         // info.style.display = 'block'
-        dataContainter.style.height="140px"
+        dataContainter.style.height = "140px"
+
     } else if (localStorage.getItem('userLogged')) {
         console.log('algo aca?')
         showUserData(JSON.parse(localStorage.getItem('userLogged')), "Bienvenido de nuevo")
@@ -111,7 +112,6 @@ function checkSession() {
         btnLogin.style.display = 'inline'
         btnLogout.style.display = 'none'
         info.style.display = 'none'
-
     }
 }
 
@@ -120,22 +120,56 @@ function logout() {
     sessionStorage.removeItem('online')
     localStorage.removeItem('userLogged')
     swal('Gracias por visitarnos')
-    location.reload()
-}
-
-async function comprar(e) {
-    swal(`Producto: ${e.target.dataset.id}  Precio: ${e.target.dataset.price}`)
-    swal({
-        "title": "Eliseo@gardner.biz",
-        "text": "laudantium enim quasi est quidem magnam voluptate ipsam eos\ntempora quo necessitatibus\ndolor quam autem quasi\nreiciendis et nam sapiente accusantium"
+    sleep(7000).then(() => {
+        location.reload()
     })
 }
 
-function productExist(id) {
-    if (lstProducts.length >= id) {
-        return true
+async function comprar(e) {
+    if (localStorage.getItem('userLogged')) {
+        console.log("a buscar", e.target.dataset.id)
+        if (productExist(e.target.dataset.id)) {
+            calcTotalAmount(productExist(e.target.dataset.id))
+            console.log(myCart)
+
+            swal({
+                title: "Compra",
+                text: `Producto: ${e.target.dataset.id}  Precio: ${e.target.dataset.price}`,
+                icon: "success",
+            })
+            // myCar.push({
+            //     'producto': e.target.dataset.id,
+            //     'precio': e.target.dataset.price
+            // })
+            // console.log(myCart)
+            // console.log(searchProduct(0))
+            // swal({
+            //     "title": "Eliseo@gardner.biz",
+            //     "text": "laudantium enim quasi est quidem magnam voluptate ipsam eos\ntempora quo necessitatibus\ndolor quam autem quasi\nreiciendis et nam sapiente accusantium"
+            // })
+            saveCart(myCart)
+        } else {
+            swal({
+                title: "Compra",
+                text: `Producto: ${e.target.dataset.id}  Precio: ${e.target.dataset.price}`,
+                icon: "success",
+            })
+            myCart.push({
+                title:e.target.dataset.title,
+                producto: parseInt(e.target.dataset.id),
+                precio: parseFloat(e.target.dataset.price),
+                cantidad: 1,
+                totalAmount: parseFloat(e.target.dataset.price)
+            })
+            console.log(myCart)
+            saveCart(myCart)
+        }
     } else {
-        return false
+        swal({
+            title: "Error",
+            text: "Debe iniciar sesión para realizar un compra",
+            icon: "warning"
+        })
     }
 }
 
@@ -150,12 +184,27 @@ function showUserData(obj, msg) {
     info.style.display = 'block'
 }
 
-function searchProduct() {
-    let strfilter = prompt("Ingrese producto")
-    let list = lstProducts.filter(element => element.includes(strfilter))
-    alert(list.join('\n'))
+function productExist(strProductFound) {
+    let strfilter = strProductFound
+    return myCart.find(element => element.producto == strfilter)
 }
 
 function getRandomNumbers(min, max, dec) {
     return (Math.random() * (max - min) + min).toFixed(dec);
 }
+
+function sleep(milliseconds) {
+    return new Promise(resolve => setTimeout(resolve, milliseconds));
+}
+
+function calcTotalAmount(pro) {
+    pro.cantidad++
+    pro.totalAmount = pro.precio * pro.cantidad
+
+}
+
+function saveCart(el) {
+    localStorage.setItem('myCart', JSON.stringify(el))
+}
+
+

@@ -49,6 +49,11 @@ header {
 	background-color: black;
 	color: white;
 	border-color: red;
+	/* height: 410px; */
+}
+
+.hide{
+	display: none;
 }
 
 #icon {
@@ -150,13 +155,32 @@ div.row {
 	text-align: center;
 	opacity: 0.3;
 }
-
+.btnBuy{
+	margin-bottom: 7px;
+}
 .user {
 	width: 90%;
 	height: 80px;
 	margin: 0.5% auto;
 }
-
+#books{
+	color: white;
+	margin: 10px auto;
+}
+.endBuy{
+	display: block;
+	text-align: center;
+	border: 1px solid green;
+	padding-bottom: 3px;
+	margin: 5px auto;
+}
+.finalCart{
+	width: auto;
+	margin-left: 5px;
+}
+#total{
+	color: white;
+}
 @media (min-width: 300px) and (max-width: 767px) {
 	#otra {
 		left: 82%;
